@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Habit Coach 🚀
 
-## Getting Started
+Track your daily habits and mood, and get personalized coaching from Claude.
 
-First, run the development server:
+## Features
+
+- **Habits**: add, check off for today, and delete habits
+- **Streaks**: current streak per habit, a 7-day completion strip, and summary stats (done today, top streak, best ever)
+- **Mood tracker**: log how you feel each day, with a 7-day mood history
+- **AI coach**: Claude reviews your habits, streaks and recent moods and gives short, specific advice. You can also ask it a question.
+- **Offline fallback**: with no API key (or if the API is unreachable), the coach gives rule-based tips instead
+- **Local-first**: all data stays in your browser's `localStorage`. Only a summary (habit names, streaks and recent moods) is sent to the coach.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then add your ANTHROPIC_API_KEY
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start the dev server     |
+| `npm run build` | Production build         |
+| `npm start`     | Run the production build |
+| `npm run lint`  | Lint with ESLint         |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+  page.tsx              Main page: state + localStorage persistence
+  api/coach/route.ts    POST endpoint that asks Claude for coaching
+components/
+  HabitForm.tsx         Add a habit
+  HabitList.tsx         Check off, streaks, 7-day strip, delete
+  MoodTracker.tsx       Daily mood + history
+  StatsSummary.tsx      Summary stat cards
+  AICoach.tsx           Coaching UI
+lib/
+  habits.ts             Habit model, date/streak helpers, data migration
+  coach.ts              Offline rule-based coaching
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploying
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to [Vercel](https://vercel.com/new) (or any Next.js host) and set the `ANTHROPIC_API_KEY` environment variable.
